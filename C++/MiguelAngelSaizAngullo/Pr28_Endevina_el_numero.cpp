@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include <time.h>
 
+int generarNumeroAleatorio();
+
+int pedirNumeroUsuario();
+
+int calcularMaximo(int numeroAleatorio, int numeroUsuario, int numeroMaximo);
+
+bool comparacionNumeros(int numeroAleatorio, int numeroUsuario);
+
+int calcularMinimo(int numeroAleatorio, int numeroUsuario, int numeroMinimo);
+
 int main(void){
     int numeroAleatorio, numeroUsuario, contador = 0, numeroMinimo = 1, numeroMaximo = 1000;
 
-    int generarNumeroAleatorio();
-
-    int pedirNumeroUsuario();
-
-    int calcularMaximo(int numeroAleatorio, int numeroUsuario, int numeroMaximo);
-
-    bool comparacionNumeros(int numeroAleatorio, int numeroUsuario);
-
-    int calcularMinimo(int numeroAleatorio, int numeroUsuario, int numeroMinimo);
 
     bool comparacion = false;
 
