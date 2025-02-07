@@ -11,11 +11,11 @@ int main(void){
 
     int calcularMaximo(int numeroAleatorio, int numeroUsuario, int numeroMaximo);
 
-    bool compararacionNumeros(int numeroAleatorio, int numeroUsuario);
+    bool comparacionNumeros(int numeroAleatorio, int numeroUsuario);
 
     int calcularMinimo(int numeroAleatorio, int numeroUsuario, int numeroMinimo);
 
-    bool compararacion = false;
+    bool comparacion = false;
 
     srand(time(NULL));
 
@@ -24,9 +24,9 @@ int main(void){
     do{
         numeroUsuario = pedirNumeroUsuario();
 
-        compararacion = compararacionNumeros(numeroAleatorio, numeroUsuario);
+        comparacion = comparacionNumeros(numeroAleatorio, numeroUsuario);
 
-        if (compararacion == false){
+        if (!compararacion){
             numeroMaximo = calcularMaximo(numeroAleatorio, numeroUsuario, numeroMaximo);
             numeroMinimo = calcularMinimo(numeroAleatorio, numeroUsuario, numeroMinimo);
             printf("El numero esta entre el %i y %i\n",numeroMinimo,numeroMaximo);
@@ -34,10 +34,10 @@ int main(void){
 
         contador += 1;
 
-    }while(contador < 10 && compararacion == false);
+    }while(contador < 10 && !compararacion);
 
     if(compararacion == true){
-        printf("Has conseguido en %i intentos adivinar el numero %i",contador,numeroAleatorio);
+        printf("Felicidades! Has adivinado el numero %i en %i intentos.\n", numeroAleatorio, contador);
     }else{
         printf("No has conseguido en %i intentos adivinar el numero %i",contador,numeroAleatorio);
     }
@@ -58,15 +58,15 @@ int pedirNumeroUsuario(){
     return numeroUsuario;
 }
 
-bool compararacionNumeros(int numeroAleatorio, int numeroUsuario){
-    if (numeroAleatorio == numeroUsuario) return true ; else return false;
+bool comparacionNumeros(int numeroAleatorio, int numeroUsuario){
+    return numeroAleatorio == numeroUsuario;
 }
 
 int calcularMaximo(int numeroAleatorio, int numeroUsuario, int numeroMaximo){
-    if(numeroUsuario>numeroAleatorio) return numeroUsuario; else return numeroMaximo;
+    return numeroUsuario>numeroAleatorio ? numeroUsuario : numeroMaximo;
 }
 
 int calcularMinimo(int numeroAleatorio, int numeroUsuario, int numeroMinimo){
-    if(numeroUsuario<numeroAleatorio) return numeroUsuario; else return numeroMinimo;
+    return numeroUsuario<numeroAleatorio ? numeroUsuario : numeroMinimo;
 }
 
