@@ -2,61 +2,63 @@
 #include <stdlib.h>
 #include <time.h>
 
+///FUNCIONES
+int generarNumeroAleatorio(void);
+int gestionJuego(int numeroAleatorio,int numeroDeOportunidades, int rangoNumeroAleatorio[]);
+int actualizarVidas(bool resultadoRespuesta,int numeroDeOportunidades);
+int pedirNumeroUsuario(int rangoNumeroAleatorio[]);
+void mostrarRangoNumeroAleatorio(int numeroUsuario, int numeroAleatorio,int rangoNumeroAleatorio[]);
+
 int main (void){
-    ///VARIABLES
     int numeroDeOportunidades = 10;
-    int pistaUsuario[2] = {0,1000};
-    ///FUNCIONES
-    int Aleatorio(void);
-    int adivinarNumeroAleatorio(int numeroAleatorio,int numeroDeOportunidades, int pistaUsuario[]);
+    int rangoNumeroAleatorio[2] = {0,1000};
     ///SEMILLA TEMPORAL
     srand(time(NULL));
 
-    int numeroAleatorio = Aleatorio();
-    printf("%i \n",numeroAleatorio);
-    adivinarNumeroAleatorio(numeroAleatorio,numeroDeOportunidades,pistaUsuario);
+    int numeroAleatorio = generarNumeroAleatorio();
+    gestionJuego(numeroAleatorio,numeroDeOportunidades,rangoNumeroAleatorio);
 }
 
-int Aleatorio(void){
-    return rand()%1000;
+int generarNumeroAleatorio(void){
+    return rand()%1000+1;
 }
 
 /// INTENTAR HACER RECURSIVIDAD + NIVELES
-int adivinarNumeroAleatorio(int numeroAleatorio,int numeroDeOportunidades, int pistaUsuario[]){
-    ///FUNCIONES
-    int consultarNumeroDeVidas(bool resultadoRespuesta,int numeroDeOportunidades);
-    int respuestaUsuario(void);
-    void mostrarPistaUsuario(int numeroUsuario, int numeroAleatorio,int pistaUsuario[]);
-    ///VARIABLES
+int gestionJuego(int numeroAleatorio,int numeroDeOportunidades, int rangoNumeroAleatorio[]){
     int numeroUsuario;
     bool resultadoRespuesta = false;
+
     /// GUARDO EL VALOR YA QUE SI LUEGO LLAMO A LA FUNCION ME PREGUNTARA POR OTRO NUMERO Y NO QUIERO ESO.
-    numeroUsuario = respuestaUsuario();
+    numeroUsuario = pedirNumeroUsuario(rangoNumeroAleatorio);
     /// CUANDO EL USUARIO NO HACIERTE LE MOSTRARE LAS VIDAS QUE LE QUEDAN Y ENTRE QUE NUMERO ESTA EL ALEATORIO, SI LO ACIERTO ME DIRA EN CUANTO INTENTOS LO HE REALIZADO (DIRECTAMENTE LO RESTO SIN GUARDARLO) Y SALIMOS.
-    if (numeroUsuario != numeroAleatorio) numeroDeOportunidades = consultarNumeroDeVidas(false,numeroDeOportunidades), mostrarPistaUsuario(numeroUsuario,numeroAleatorio,pistaUsuario);
+    if (numeroUsuario != numeroAleatorio) numeroDeOportunidades = actualizarVidas(false,numeroDeOportunidades), mostrarRangoNumeroAleatorio(numeroUsuario,numeroAleatorio,rangoNumeroAleatorio);
     else resultadoRespuesta = true,printf("CORRECTE! Los has realizado en %i intents.\n", 10-numeroDeOportunidades) ;
 
     /// RECURISIVIDAD
-    if (numeroDeOportunidades >= 0 && resultadoRespuesta == false) return adivinarNumeroAleatorio(numeroAleatorio,numeroDeOportunidades,pistaUsuario);else printf("Adios ...");;
+    if (numeroDeOportunidades >= 0 && resultadoRespuesta == false) return gestionJuego(numeroAleatorio,numeroDeOportunidades,rangoNumeroAleatorio);
+    else printf("Adios ...");;
 }
 
-int respuestaUsuario(void){
+int pedirNumeroUsuario(int rangoNumeroAleatorio[]){
     int numeroUsuario;
-    printf("Que numero crees que es? \n");
-    scanf("%i",&numeroUsuario);
+    do {
+        printf("Que numero crees que es? \n");
+        scanf("%i",&numeroUsuario);
+        if (numeroUsuario <= rangoNumeroAleatorio[0] || numeroUsuario >= rangoNumeroAleatorio[1]) printf("El numero tiene que estar entre %i y %i \n",rangoNumeroAleatorio[0],rangoNumeroAleatorio[1]);
+    }while(numeroUsuario <= rangoNumeroAleatorio[0] || numeroUsuario >= rangoNumeroAleatorio[1]);
     return numeroUsuario;
 }
 
-int consultarNumeroDeVidas(bool resultadoRespuesta,int numeroDeOportunidades){
+int actualizarVidas(bool resultadoRespuesta,int numeroDeOportunidades){
     /// SI EL NUMERO ES CORECTO NO MODIFICARE LAS VIDAS
-    if (resultadoRespuesta) numeroDeOportunidades; else numeroDeOportunidades --;
+    numeroDeOportunidades --;
     printf("Tienes %i Vidas: \n", numeroDeOportunidades);
     /// DEVOLVEMOS LA CANTIDAD DE OPORTUNIDADES / VIDA LE QUEDA AL USUARIO
     return numeroDeOportunidades;
 }
 
-void mostrarPistaUsuario(int numeroUsuario, int numeroAleatorio,int pistaUsuario[]){
-    /// SI EL USUARIO INTRODUCE UN NUMERO MAS PEQUEÑO SERA EL NUMERO MINIMO Y SI EL NUMERO INTRODUCE UN NUMERO MAS GRANDE QUE EL ALEATORIO SERA EL MAXIMO PARA DAR LA PISTA
-    if(numeroUsuario < numeroAleatorio) pistaUsuario[0] = numeroUsuario; else pistaUsuario[1] = numeroUsuario;
-    printf("Numero esta entre el %i y el %i \n", pistaUsuario[0],pistaUsuario[1]);
+void mostrarRangoNumeroAleatorio(int numeroUsuario, int numeroAleatorio,int rangoNumeroAleatorio[]){
+    /// SI EL USUARIO INTRODUCE UN NUMERO MAS PEQUEÃ‘O SERA EL NUMERO MINIMO Y SI EL NUMERO INTRODUCE UN NUMERO MAS GRANDE QUE EL ALEATORIO SERA EL MAXIMO PARA DAR LA PISTA
+    if(numeroUsuario < numeroAleatorio) rangoNumeroAleatorio[0] = numeroUsuario; else rangoNumeroAleatorio[1] = numeroUsuario;
+    printf("Numero esta entre el %i y el %i \n", rangoNumeroAleatorio[0],rangoNumeroAleatorio[1]);
 }
